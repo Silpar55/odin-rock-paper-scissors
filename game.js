@@ -34,44 +34,44 @@ function playRound(playerChoice, computerChoice) {
   return tiedGame ? "tied" : playerWon;
 }
 
-function game() {
-  let playerCounter = 0;
-  let computerCounter = 0;
-  let winner = false;
+// function game() {
+//   let playerCounter = 0;
+//   let computerCounter = 0;
+//   let winner = false;
 
-  while (!winner) {
-    const playerChoice = prompt(`Choose between: ${options.join(", ")}`);
-    if (!playerChoice) return "Choose an option";
-    const computerChoice = getComputerChoice();
-    const result = playRound(playerChoice, computerChoice);
+//   while (!winner) {
+//     const playerChoice = prompt(`Choose between: ${options.join(", ")}`);
+//     if (!playerChoice) return "Choose an option";
+//     const computerChoice = getComputerChoice();
+//     const result = playRound(playerChoice, computerChoice);
 
-    switch (result) {
-      case "tied":
-        console.log("nobody won in this round");
-        break;
-      case true:
-        playerCounter++;
-        console.log(
-          `player won the round (${playerChoice} beats ${computerChoice})`
-        );
-        break;
-      case false:
-        computerCounter++;
-        console.log(
-          `computer won the round(${computerChoice} beats ${playerChoice})`
-        );
-        break;
-    }
+//     switch (result) {
+//       case "tied":
+//         console.log("nobody won in this round");
+//         break;
+//       case true:
+//         playerCounter++;
+//         console.log(
+//           `player won the round (${playerChoice} beats ${computerChoice})`
+//         );
+//         break;
+//       case false:
+//         computerCounter++;
+//         console.log(
+//           `computer won the round(${computerChoice} beats ${playerChoice})`
+//         );
+//         break;
+//     }
 
-    if (playerCounter === 3) {
-      winner = true;
-      console.log("The player won the game!");
-    }
+//     if (playerCounter === 3) {
+//       winner = true;
+//       console.log("The player won the game!");
+//     }
 
-    if (computerCounter === 3) {
-      console.log("The computer won the game!");
-    }
-  }
-}
+//     if (computerCounter === 3) {
+//       console.log("The computer won the game!");
+//     }
+//   }
+// }
 
-game();
+// game();
