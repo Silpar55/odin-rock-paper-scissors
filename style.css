@@ -25,3 +25,42 @@ button {
   border-radius: 10px;
   margin: 0 8px;
 }
+
+#content {
+  margin: 16px 0;
+}
+
+#content .result {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+#content .counters {
+  display: flex;
+  justify-content: space-between;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.winner {
+  text-align: center;
+  font-size: 40px;
+  color: #514ed0;
+}
+
+.disabled {
+  background-color: #31307d;
+  opacity: 0.5;
+}
+
+.result {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.counters {
+  display: flex;
+  gap: 32px;
+}

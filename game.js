@@ -1,77 +1,121 @@
-const options = ["rock", "paper", "scissors"];
+addEventListener("DOMContentLoaded", (e) => {
+  const options = ["rock", "paper", "scissors"];
+  let playerCounter = 0;
+  let computerCounter = 0;
+  let winner = false;
+  const content = document.querySelector("#content");
+  const result = document.createElement("div");
+  const counters = document.createElement("div");
+  const playerP = document.createElement("p");
+  const playerSpan = document.createElement("span");
+  const computerP = document.createElement("p");
+  const computerSpan = document.createElement("span");
+  const winnerP = document.createElement("p");
+  const restart = document.createElement("button");
 
-function getComputerChoice() {
-  return options[Math.floor(Math.random() * 3)];
-}
+  playerP.innerText = "Player: ";
+  playerSpan.innerText = playerCounter;
+  computerP.innerText = "Computer: ";
+  computerSpan.innerText = computerCounter;
+  restart.innerText = "Restart Game";
 
-function playRound(playerChoice, computerChoice) {
-  let playerWon = false;
-  let tiedGame = false;
-
-  if (playerChoice.toLowerCase() === computerChoice) {
-    tiedGame = true;
-    console.log(`Tied! both choose ${playerChoice}`);
-  } else {
-    switch (playerChoice.toLowerCase()) {
-      case "rock":
-        if (computerChoice === "scissors") playerWon = true;
-        break;
-      case "paper":
-        if (computerChoice === "rock") playerWon = true;
-        break;
-      case "scissors":
-        if (computerChoice === "paper") playerWon = true;
-        break;
-    }
-
-    if (playerWon) {
-      console.log(`You win! ${playerChoice} beats ${computerChoice}`);
-    } else {
-      console.log(`You lose! ${computerChoice} beats ${playerChoice}`);
-    }
+  result.classList.add("result");
+  counters.classList.add("counters");
+  winnerP.classList.add("winner");
+  restart.classList.add("restart");
+  content.append(result);
+  content.append(counters);
+  counters.append(playerP);
+  counters.append(computerP);
+  playerP.append(playerSpan);
+  computerP.append(computerSpan);
+  function getComputerChoice() {
+    return options[Math.floor(Math.random() * 3)];
   }
 
-  return tiedGame ? "tied" : playerWon;
-}
+  function playRound(playerChoice, computerChoice) {
+    let playerWon = false;
+    let tiedGame = false;
+    const p = document.createElement("p");
+    if (playerChoice.toLowerCase() === computerChoice) {
+      tiedGame = true;
+      p.innerText = `Tied in this round! both choose ${playerChoice}`;
+    } else {
+      switch (playerChoice.toLowerCase()) {
+        case "rock":
+          if (computerChoice === "scissors") playerWon = true;
+          break;
+        case "paper":
+          if (computerChoice === "rock") playerWon = true;
+          break;
+        case "scissors":
+          if (computerChoice === "paper") playerWon = true;
+          break;
+      }
 
-// function game() {
-//   let playerCounter = 0;
-//   let computerCounter = 0;
-//   let winner = false;
+      if (playerWon) {
+        p.innerText = `You win this round! ${playerChoice} beats ${computerChoice}`;
+      } else {
+        p.innerText = `You lose this round! ${computerChoice} beats ${playerChoice}`;
+      }
+    }
 
-//   while (!winner) {
-//     const playerChoice = prompt(`Choose between: ${options.join(", ")}`);
-//     if (!playerChoice) return "Choose an option";
-//     const computerChoice = getComputerChoice();
-//     const result = playRound(playerChoice, computerChoice);
+    result.append(p);
+    return tiedGame ? "tied" : playerWon;
+  }
 
-//     switch (result) {
-//       case "tied":
-//         console.log("nobody won in this round");
-//         break;
-//       case true:
-//         playerCounter++;
-//         console.log(
-//           `player won the round (${playerChoice} beats ${computerChoice})`
-//         );
-//         break;
-//       case false:
-//         computerCounter++;
-//         console.log(
-//           `computer won the round(${computerChoice} beats ${playerChoice})`
-//         );
-//         break;
-//     }
+  // Get all button options
+  const optionsContent = document.querySelectorAll("div.options button");
 
-//     if (playerCounter === 3) {
-//       winner = true;
-//       console.log("The player won the game!");
-//     }
+  function disableButtons() {
+    optionsContent.forEach(function (option) {
+      option.setAttribute("disabled", "");
+      option.classList.add("disabled");
+    });
+  }
 
-//     if (computerCounter === 3) {
-//       console.log("The computer won the game!");
-//     }
-//   }
-// }
+  // Create a event listener to each one to get the player choice base on the value and play the round
+  optionsContent.forEach(function (option) {
+    option.addEventListener("click", () => {
+      let playerOption = option.value;
+      let computerOption = getComputerChoice();
+      // clear the previous result
+      while (result.firstChild) result.removeChild(result.lastChild);
+      const resultRound = playRound(playerOption, computerOption);
 
-// game();
+      switch (resultRound) {
+        case true:
+          playerCounter++;
+          break;
+        case false:
+          computerCounter++;
+          break;
+      }
+
+      if (playerCounter === 3) {
+        winner = true;
+        winnerP.innerText = "The player won the game!";
+        result.append(winnerP);
+      }
+
+      if (computerCounter === 3) {
+        winner = true;
+        winnerP.innerText = "The computer won the game!";
+        result.append(winnerP);
+      }
+
+      playerSpan.innerText = playerCounter;
+      computerSpan.innerText = computerCounter;
+
+      // If there is a winner, disable the buttons and create a restar button
+      if (winner) {
+        disableButtons();
+        result.append(restart);
+      }
+    });
+
+    restart.addEventListener("click", (e) => {
+      location.reload();
+    });
+  });
+});
